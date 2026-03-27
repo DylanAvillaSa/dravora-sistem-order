@@ -94,7 +94,7 @@ export default function Home() {
                 src="https://i.pravatar.cc/100?img=3"
               />
             </div>
-            <p>+100 UMKM sudah pakai</p>
+            <p>Memudahkan UMKM</p>
           </div>
         </div>
 
