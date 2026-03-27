@@ -167,16 +167,62 @@ Mohon konfirmasi 🙏`;
       </AnimatePresence>
 
       {/* Header */}
-      <div className="max-w-md mx-auto text-center mb-10">
-        <div className="inline-flex items-center gap-2 text-sm font-bold text-red-600">
-          <FaCheck /> {BRAND.tagline}
+      <div className="max-w-md mx-auto mb-10">
+        {/* COVER */}
+        <div className="relative h-32 w-full rounded-3xl overflow-hidden">
+          <img
+            src="https://images.unsplash.com/photo-1556740749-887f6717d7e4?w=800"
+            className="w-full h-full object-cover"
+          />
+
+          {/* overlay biar readable */}
+          <div className="absolute inset-0 bg-black/40" />
         </div>
-        <h1 className="text-3xl font-extrabold text-gray-900 mt-3">
-          {BRAND.name}
-        </h1>
-        <p className="text-gray-500 text-sm mt-2">
-          Pesan produk lebih cepat & rapi langsung ke WhatsApp
-        </p>
+
+        {/* PROFILE CARD */}
+        <div className="relative bg-white rounded-3xl shadow-md px-5 pb-5 pt-12 -mt-10 border-none">
+          {/* AVATAR FLOAT */}
+          <div className="absolute -top-8 left-5 w-16 h-16 rounded-2xl bg-white shadow flex items-center justify-center text-lg font-bold text-gray-700">
+            {BRAND.name?.charAt(0)}
+          </div>
+
+          {/* STORE NAME */}
+          <div className="flex items-center justify-between">
+            <h1 className="text-xl font-bold text-gray-900">{BRAND.name}</h1>
+
+            <div className="flex items-center gap-1 text-blue-600 text-sm font-semibold">
+              <FaCheck />
+              Verified
+            </div>
+          </div>
+
+          {/* STATUS */}
+          <div className="flex items-center gap-2 text-xs text-green-600 font-medium mt-1">
+            <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+            Online • Fast Response
+          </div>
+
+          {/* TAGLINE */}
+          <p className="text-sm text-gray-600 mt-3 leading-relaxed">
+            {BRAND.tagline}
+          </p>
+
+          {/* STATS */}
+          <div className="flex justify-between mt-4 text-center">
+            <div>
+              <p className="font-bold text-gray-900 text-sm">100+</p>
+              <p className="text-xs text-gray-500">Pesanan</p>
+            </div>
+            <div>
+              <p className="font-bold text-gray-900 text-sm">4.9⭐</p>
+              <p className="text-xs text-gray-500">Rating</p>
+            </div>
+            <div>
+              <p className="font-bold text-gray-900 text-sm">24 Jam</p>
+              <p className="text-xs text-gray-500">Respon</p>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Card */}
@@ -194,8 +240,8 @@ Mohon konfirmasi 🙏`;
         <Section title="Cari Produk">
           <input
             type="text"
-            placeholder="Cari produk..."
-            className="w-full px-4 py-3 rounded-xl border focus:ring-2 focus:ring-red-500"
+            placeholder="Cari produk favorit..."
+            className="w-full pl-5 pr-5 py-4 rounded-2xl bg-white shadow-md border border-gray-100 focus:ring-2 focus:ring-red-500 outline-none"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -205,7 +251,7 @@ Mohon konfirmasi 🙏`;
           <p className="text-xs text-gray-400 mb-2">
             Klik produk untuk menambah ke pesanan
           </p>
-          <div className="flex gap-4 mb-4">
+          <div className="flex gap-4 mb-4 text-xs">
             {["List product"].map((cat) => (
               <motion.button
                 key={cat}
@@ -311,19 +357,20 @@ Mohon konfirmasi 🙏`;
           <textarea
             rows={3}
             placeholder="Catatan tambahan (opsional)"
-            className="w-full border rounded-xl px-4 py-3 focus:ring-2 focus:ring-red-500"
+            className="w-full pl-5 pr-5 py-4 rounded-2xl bg-white shadow-md border border-gray-100 focus:ring-2 focus:ring-red-500 outline-none"
             onChange={(e) => setNote(e.target.value)}
           />
         </Section>
 
         <button
           onClick={handlePreview}
-          className="w-full bg-red-600 hover:bg-red-700 text-white py-4 rounded-2xl font-extrabold flex items-center justify-center gap-3 shadow-lg"
+          className="w-full bg-gradient-to-r from-red-600 to-red-500 hover:scale-[1.02] active:scale-[0.98] transition text-white py-4 rounded-2xl font-extrabold flex items-center justify-center gap-3 shadow-lg"
         >
-          <FaWhatsapp size={22} /> Pesan via WhatsApp
+          <FaWhatsapp size={20} />
+          Pesan Sekarang
         </button>
         <p className="text-xs text-center text-gray-400 mt-1">
-          Powered by <b>{BRAND.name}</b>
+          Powered by <b>Dravora Id</b>
         </p>
       </div>
 
@@ -455,7 +502,7 @@ function Input({ icon, label, type = "text", placeholder, onChange }) {
         <input
           type={type}
           placeholder={placeholder}
-          className="w-full pl-12 pr-4 py-4 rounded-xl border focus:ring-2 focus:ring-red-500"
+          className="w-full pl-10 pr-5 py-4 rounded-2xl bg-white shadow-md border border-gray-100 focus:ring-2 focus:ring-red-500 outline-none"
           onChange={(e) => onChange(e.target.value)}
         />
       </div>
