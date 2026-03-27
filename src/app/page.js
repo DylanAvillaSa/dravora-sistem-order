@@ -1,65 +1,153 @@
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 export default function Home() {
+  const [storeName, setStoreName] = useState("");
+  const router = useRouter();
+
+  const slugify = (text) => {
+    return text.toLowerCase().trim().replace(/\s+/g, "-");
+  };
+
+  const handleSubmit = () => {
+    if (!storeName.trim()) return;
+    router.push(`/u/${slugify(storeName)}`);
+  };
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.js file.
+    <div className="min-h-screen bg-[#0f0f0f] text-white px-6 flex items-center justify-center relative overflow-hidden pt-10">
+      {/* BACKGROUND GLOW */}
+      <div className="absolute w-[500px] h-[500px] bg-purple-600/30 blur-[120px] rounded-full top-[-100px] left-[-100px]" />
+      <div className="absolute w-[500px] h-[500px] bg-blue-600/30 blur-[120px] rounded-full bottom-[-100px] right-[-100px]" />
+
+      <div className="max-w-6xl w-full grid md:grid-cols-2 gap-12 items-center z-10">
+        {/* LEFT */}
+        <div>
+          {/* BADGE */}
+          <div className="inline-block px-4 py-2 bg-white/10 rounded-full text-sm mb-6 border border-white/10 backdrop-blur">
+            🚀 Sistem Order UMKM
+          </div>
+
+          {/* TITLE */}
+          <h1 className="text-4xl md:text-6xl font-extrabold leading-tight">
+            Jualan Lebih Cepat
+            <span className="block bg-gradient-to-r from-purple-400 to-blue-400 text-transparent bg-clip-text">
+              Tanpa Balas Chat Manual
+            </span>
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+
+          {/* DESC */}
+          <p className="mt-5 text-gray-400 text-lg">
+            Customer pilih menu sendiri, langsung masuk ke WhatsApp dengan
+            format rapi.
+            <span className="text-white font-semibold">
+              {" "}
+              Auto closing tanpa ribet.
+            </span>
           </p>
+
+          {/* INPUT */}
+          <div className="mt-8">
+            <div className="flex gap-3 bg-white/5 p-2 rounded-2xl border border-white/10 backdrop-blur">
+              <input
+                type="text"
+                placeholder="Contoh: Warung Bu Sari"
+                value={storeName}
+                onChange={(e) => setStoreName(e.target.value)}
+                className="flex-1 px-4 py-3 rounded-xl bg-transparent outline-none text-white placeholder-gray-500"
+              />
+
+              <button
+                onClick={handleSubmit}
+                className="bg-white text-black px-6 rounded-xl font-semibold hover:scale-105 transition"
+              >
+                Coba
+              </button>
+            </div>
+
+            {storeName && (
+              <p className="mt-3 text-sm text-gray-500">
+                Link kamu:{" "}
+                <span className="text-white font-semibold">
+                  dravora.my.id/u/{slugify(storeName)}
+                </span>
+              </p>
+            )}
+          </div>
+
+          {/* SOCIAL PROOF */}
+          <div className="mt-8 flex items-center gap-4 text-sm text-gray-400">
+            <div className="flex -space-x-3">
+              <img
+                className="w-8 h-8 rounded-full border border-black"
+                src="https://i.pravatar.cc/100?img=1"
+              />
+              <img
+                className="w-8 h-8 rounded-full border border-black"
+                src="https://i.pravatar.cc/100?img=2"
+              />
+              <img
+                className="w-8 h-8 rounded-full border border-black"
+                src="https://i.pravatar.cc/100?img=3"
+              />
+            </div>
+            <p>+100 UMKM sudah pakai</p>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+
+        {/* RIGHT (SOCIAL MEDIA STYLE PREVIEW) */}
+        <div className="relative">
+          {/* CARD */}
+          <div className="bg-[#1a1a1a] p-4 rounded-3xl shadow-2xl border border-white/10">
+            {/* HEADER */}
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full" />
+              <div>
+                <p className="font-semibold">Warung Bu Sari</p>
+                <p className="text-xs text-gray-400">Online</p>
+              </div>
+            </div>
+
+            {/* IMAGE */}
             <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+              src="/images/order-otomatis.png"
+              width={500}
+              height={400}
+              alt="preview"
+              className="rounded-2xl mb-4"
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+            {/* MENU LIST */}
+            <div className="space-y-2 text-sm">
+              <div className="flex justify-between">
+                <p>Nasi Goreng</p>
+                <p>Rp15.000</p>
+              </div>
+              <div className="flex justify-between">
+                <p>Mie Ayam</p>
+                <p>Rp12.000</p>
+              </div>
+              <div className="flex justify-between">
+                <p>Es Teh</p>
+                <p>Rp5.000</p>
+              </div>
+            </div>
+
+            {/* BUTTON */}
+            <button className="mt-4 w-full bg-green-500 text-black py-3 rounded-xl font-semibold hover:scale-[1.02] transition">
+              Pesan via WhatsApp
+            </button>
+          </div>
+
+          {/* FLOATING ELEMENT */}
+          <div className="absolute -top-6 -right-6 bg-white text-black px-4 py-2 rounded-xl text-sm font-semibold shadow-lg">
+            Auto Order ⚡
+          </div>
         </div>
-      </main>
+      </div>
     </div>
   );
 }
