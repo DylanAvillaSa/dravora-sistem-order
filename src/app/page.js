@@ -37,7 +37,7 @@ export default function Home() {
 
       {/* ALERT POPUP */}
       <div
-        className={`fixed top-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 ${
+        className={`fixed top-1/2 w-[80%] left-1/2 -translate-x-1/2 z-50 transition-all duration-500 ${
           showAlert
             ? "opacity-100 translate-y-0"
             : "opacity-0 -translate-y-10 pointer-events-none"
