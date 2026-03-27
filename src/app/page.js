@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useDeferredValue } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useRef } from "react";
@@ -8,6 +9,7 @@ import { useRef } from "react";
 export default function Home() {
   const inputRef = useRef(null);
   const [storeName, setStoreName] = useState("");
+  const deferredStoreName = useDeferredValue(storeName);
   const router = useRouter();
   const [showAlert, setShowAlert] = useState(false);
 
@@ -32,8 +34,8 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-[#0f0f0f] text-white px-6 flex items-center justify-center relative overflow-hidden pt-10">
       {/* BACKGROUND GLOW */}
-      <div className="absolute w-[500px] h-[500px] bg-purple-600/30 blur-[120px] rounded-full top-[-100px] left-[-100px]" />
-      <div className="absolute w-[500px] h-[500px] bg-blue-600/30 blur-[120px] rounded-full bottom-[-100px] right-[-100px]" />
+      <div className="absolute w-[500px] h-[500px] bg-purple-600/30 blur-3xl rounded-full top-[-100px] left-[-100px]" />
+      <div className="absolute w-[500px] h-[500px] bg-blue-600/30 blur-3xl rounded-full bottom-[-100px] right-[-100px]" />
 
       {/* ALERT POPUP */}
       <div
@@ -101,7 +103,7 @@ export default function Home() {
               <p className="mt-3 text-sm text-gray-500">
                 Link kamu:{" "}
                 <span className="text-white font-semibold">
-                  dravora.my.id/u/{slugify(storeName)}
+                  dravora.my.id/u/{slugify(deferredStoreName)}
                 </span>
               </p>
             )}
