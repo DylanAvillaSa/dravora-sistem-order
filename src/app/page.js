@@ -3,17 +3,29 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { useRef } from "react";
 
 export default function Home() {
+  const inputRef = useRef(null);
   const [storeName, setStoreName] = useState("");
   const router = useRouter();
+  const [showAlert, setShowAlert] = useState(false);
 
   const slugify = (text) => {
     return text.toLowerCase().trim().replace(/\s+/g, "-");
   };
-
   const handleSubmit = () => {
-    if (!storeName.trim()) return;
+    if (!storeName.trim()) {
+      setShowAlert(true);
+      inputRef.current?.focus();
+
+      setTimeout(() => {
+        setShowAlert(false);
+      }, 2500);
+
+      return;
+    }
+
     router.push(`/u/${slugify(storeName)}`);
   };
 
@@ -22,6 +34,22 @@ export default function Home() {
       {/* BACKGROUND GLOW */}
       <div className="absolute w-[500px] h-[500px] bg-purple-600/30 blur-[120px] rounded-full top-[-100px] left-[-100px]" />
       <div className="absolute w-[500px] h-[500px] bg-blue-600/30 blur-[120px] rounded-full bottom-[-100px] right-[-100px]" />
+
+      {/* ALERT POPUP */}
+      <div
+        className={`fixed top-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 ${
+          showAlert
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 -translate-y-10 pointer-events-none"
+        }`}
+      >
+        <div className="bg-gradient-to-r flex flex-col from-purple-600 to-blue-600 px-6 py-4 rounded-2xl shadow-2xl border border-white/10 backdrop-blur flex items-center gap-3">
+          <p className="text-sm md:text-base font-medium">
+            Isi nama toko dulu ya... biar langsung jadi{" "}
+            <span className="font-bold">punya sistem order sendiri</span> 🚀
+          </p>
+        </div>
+      </div>
 
       <div className="max-w-6xl w-full grid md:grid-cols-2 gap-12 items-center z-10">
         {/* LEFT */}
@@ -55,6 +83,7 @@ export default function Home() {
               <input
                 type="text"
                 placeholder="Contoh: Warung Bu Sari"
+                ref={inputRef}
                 value={storeName}
                 onChange={(e) => setStoreName(e.target.value)}
                 className="flex-1 px-4 py-3 rounded-xl bg-transparent outline-none text-white placeholder-gray-500"
