@@ -14,6 +14,7 @@ import {
 } from "react-icons/fa";
 
 import { useParams } from "next/navigation";
+import ProductScroll from "@/components/ui/ProductScroll";
 
 const products = [
   {
@@ -268,7 +269,14 @@ Mohon konfirmasi 🙏`;
             ))}
           </div>
 
-          <div className="grid grid-flow-col auto-cols-[48%] gap-4 overflow-x-auto snap-x snap-mandatory pb-2">
+          {/* List product */}
+          <ProductScroll
+            filteredProducts={filteredProducts}
+            cart={cart}
+            addToCart={addToCart}
+          />
+
+          {/* <div className="grid grid-flow-col auto-cols-[48%] gap-4 overflow-x-auto snap-x snap-mandatory pb-2">
             {filteredProducts.map((item) => {
               const inCart = cart.find((i) => i.id === item.id);
               return (
@@ -304,7 +312,7 @@ Mohon konfirmasi 🙏`;
                 </motion.div>
               );
             })}
-          </div>
+          </div> */}
         </Section>
 
         {cart.length > 0 && (
