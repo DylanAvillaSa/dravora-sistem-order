@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDeferredValue } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -16,6 +16,7 @@ export default function Home() {
   const slugify = (text) => {
     return text.toLowerCase().trim().replace(/\s+/g, "-");
   };
+
   const handleSubmit = () => {
     if (!storeName.trim()) {
       setShowAlert(true);
