@@ -172,7 +172,7 @@ Mohon konfirmasi 🙏`;
         {/* COVER */}
         <div className="relative h-32 w-full rounded-3xl overflow-hidden">
           <img
-            src={`${param.includes("ayam") ? "https://plus.unsplash.com/premium_photo-1669742928112-19364a33b530?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8YXlhbXxlbnwwfHwwfHx8MA%3D%3D" : "https://images.unsplash.com/photo-1556740749-887f6717d7e4?w=800"}`}
+            src={`${param.includes("ayam") ? "https://plus.unsplash.com/premium_photo-1669742928112-19364a33b530?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8YXlhbXxlbnwwfHwwfHx8MA%3D%3D" : "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c3RvcmUlMjBiYWp1fGVufDB8fDB8fHww"}`}
             className="w-full h-full object-cover"
           />
 
