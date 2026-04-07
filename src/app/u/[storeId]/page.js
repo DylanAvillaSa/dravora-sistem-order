@@ -9,47 +9,16 @@ import {
   FaPlus,
   FaMinus,
   FaCheck,
-  FaShoppingCart,
-  FaImages,
 } from "react-icons/fa";
 
 import { useParams } from "next/navigation";
-import ProductScroll from "@/components/ui/ProductScroll";
+import { products } from "@/data/products";
+import { formatName } from "@/app/services/formatName";
 
-const products = [
-  {
-    id: "p1",
-    name: "Produk 1",
-    price: 23000,
-    badge: "Best Seller",
-    img: "https://picsum.photos/300?1",
-    category: "List product",
-  },
-  {
-    id: "p2",
-    name: "Produk 2",
-    price: 20000,
-    badge: "Rekomendasi",
-    img: "https://images.unsplash.com/photo-1557006021-b85faa2bc5e2?w=600&auto=format&fit=crop&q=60",
-    category: "List Product",
-  },
-  {
-    id: "p3",
-    name: "Produk 3",
-    price: 33000,
-    badge: "Hemat",
-    img: "https://images.unsplash.com/photo-1628521061262-19b5cdb7eee5?w=600&auto=format&fit=crop&q=60",
-    category: "List product",
-  },
-  {
-    id: "p4",
-    name: "Produk 4",
-    price: 22000,
-    badge: "Hemat",
-    img: "https://images.unsplash.com/photo-1582981760753-b52aae38f237?w=600&auto=format&fit=crop&q=60",
-    category: "List product",
-  },
-];
+import Section from "@/components/layouts/Section";
+import Input from "@/components/layouts/Input";
+import Products from "@/components/ui/Products";
+import FloatingCart from "@/components/ui/FloatingCart";
 
 export default function SistemPesananOtomatisFull() {
   const { storeId: param } = useParams();
@@ -59,14 +28,8 @@ export default function SistemPesananOtomatisFull() {
   const [showPreview, setShowPreview] = useState(false);
   const [toast, setToast] = useState("");
   const [activeCategory, setActiveCategory] = useState("List product");
-  const [searchTerm, setSearchTerm] = useState(""); // Search Bar
-  const [cartOpen, setCartOpen] = useState(false); // Floating Cart
-
-  const formatName = (text) => {
-    return text
-      .replace(/-/g, " ")
-      .replace(/\b\w/g, (char) => char.toUpperCase()); // capitalize
-  };
+  const [searchTerm, setSearchTerm] = useState("");
+  const date = new Date();
 
   const storeName = formatName(param);
 
@@ -76,9 +39,6 @@ export default function SistemPesananOtomatisFull() {
     waAdmin: "6282127524908",
   };
 
-  const MAX_PRODUCTS = 10;
-
-  const date = new Date();
   const formattedDate = `${(date.getMonth() + 1).toString().padStart(2, "0")}/${date
     .getDate()
     .toString()
@@ -100,15 +60,6 @@ export default function SistemPesananOtomatisFull() {
     triggerToast(`${product.name} ditambahkan ke pesanan!`);
   };
 
-  const removeFromCart = (id) =>
-    setCart((prev) => prev.filter((i) => i.id !== id));
-  const updateQty = (id, delta) => {
-    setCart((prev) =>
-      prev.map((i) =>
-        i.id === id ? { ...i, qty: Math.max(1, i.qty + delta) } : i,
-      ),
-    );
-  };
   const triggerToast = (msg) => {
     setToast(msg);
     setTimeout(() => setToast(""), 2000);
@@ -142,14 +93,9 @@ Mohon konfirmasi 🙏`;
     setShowPreview(true);
   };
 
-  // Filter products by category + search term
   const filteredProducts = products.filter((p) =>
     p.name.toLowerCase().includes(searchTerm.toLowerCase()),
   );
-
-  if (cart.length >= MAX_PRODUCTS) {
-    return triggerToast("Maksimal 10 produk di versi gratis 😢");
-  }
 
   return (
     <div className="min-h-screen bg-gray-50 px-4 py-10 relative">
@@ -248,72 +194,14 @@ Mohon konfirmasi 🙏`;
           />
         </Section>
 
-        <Section title="Pilih Produk">
-          <p className="text-xs text-gray-400 mb-2">
-            Klik produk untuk menambah ke pesanan
-          </p>
-          <div className="flex gap-4 mb-4 text-xs">
-            {["List product"].map((cat) => (
-              <motion.button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                whileTap={{ scale: 0.95 }}
-                className={`px-5 py-2 rounded-full font-semibold transition ${
-                  activeCategory === cat
-                    ? "bg-red-600 text-white shadow-md"
-                    : "bg-gray-200 text-gray-700"
-                }`}
-              >
-                {cat}
-              </motion.button>
-            ))}
-          </div>
-
-          {/* List product */}
-          <ProductScroll
-            filteredProducts={filteredProducts}
-            cart={cart}
-            addToCart={addToCart}
-          />
-
-          {/* <div className="grid grid-flow-col auto-cols-[48%] gap-4 overflow-x-auto snap-x snap-mandatory pb-2">
-            {filteredProducts.map((item) => {
-              const inCart = cart.find((i) => i.id === item.id);
-              return (
-                <motion.div
-                  key={item.id}
-                  whileTap={{ scale: 0.97 }}
-                  onClick={() => addToCart(item)}
-                  className="snap-start cursor-pointer border border-gray-200 rounded-3xl p-3 flex flex-col justify-between items-center hover:border-red-500 transition shadow-md bg-white relative"
-                >
-                  <div className="w-full text-center relative">
-                    <div className="h-40 w-full rounded-2xl object-cover mb-2 bg-gray-300 flex items-center  justify-center">
-                      <FaImages className="text-gray-400" size={40} />
-                    </div>
-                    {item.badge && (
-                      <span className="absolute top-3 left-3 bg-red-600 text-white px-3 py-1 text-xs font-semibold rounded-full shadow">
-                        {item.badge}
-                      </span>
-                    )}
-                    {inCart && (
-                      <span className="absolute top-3 right-3 bg-white text-red-600 font-bold px-2 py-1 rounded-full text-sm shadow">
-                        {inCart.qty}
-                      </span>
-                    )}
-                  </div>
-                  <div className="mt-2 flex flex-col items-center gap-1">
-                    <p className="font-bold text-gray-900 text-center">
-                      {item.name}
-                    </p>
-                    <p className="text-sm text-gray-800">
-                      Rp {item.price.toLocaleString("id-ID")}
-                    </p>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div> */}
-        </Section>
+        {/* Products */}
+        <Products
+          activeCategory={activeCategory}
+          setActiveCategory={setActiveCategory}
+          filteredProducts={filteredProducts}
+          cart={cart}
+          addToCart={addToCart}
+        />
 
         {cart.length > 0 && (
           <Section title="Ringkasan Pesanan">
@@ -323,32 +211,9 @@ Mohon konfirmasi 🙏`;
                   key={i.id}
                   className="flex justify-between items-center text-sm"
                 >
-                  <span>
-                    {i.name} x{i.qty}
-                  </span>
-                  <div className="flex gap-2 items-center">
-                    <span>Rp {(i.price * i.qty).toLocaleString("id-ID")}</span>
-                    <div className="flex gap-1">
-                      <button
-                        onClick={() => updateQty(i.id, -1)}
-                        className="text-red-600 p-1 rounded-full hover:bg-red-100 transition"
-                      >
-                        <FaMinus />
-                      </button>
-                      <button
-                        onClick={() => updateQty(i.id, 1)}
-                        className="text-green-600 p-1 rounded-full hover:bg-green-100 transition"
-                      >
-                        <FaPlus />
-                      </button>
-                      <button
-                        onClick={() => removeFromCart(i.id)}
-                        className="text-gray-600 p-1 rounded-full hover:bg-gray-200 transition"
-                      >
-                        <FaTrash />
-                      </button>
-                    </div>
-                  </div>
+                  <p>{i.name}</p>
+
+                  <span>Jumlah : {i.qty}</span>
                 </div>
               ))}
               <div className="border-t pt-3 flex justify-between font-extrabold text-lg">
@@ -383,71 +248,12 @@ Mohon konfirmasi 🙏`;
       </div>
 
       {/* Floating Cart */}
-      {cart.length > 0 && (
-        <div className="fixed bottom-6 right-6 z-50">
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            className="bg-white border rounded-2xl shadow-lg w-64 overflow-hidden"
-          >
-            <div
-              className="flex items-center justify-between px-4 py-3 cursor-pointer bg-red-600 text-white font-bold"
-              onClick={() => setCartOpen(!cartOpen)}
-            >
-              <span>
-                <FaShoppingCart className="inline mr-2" />
-                {cart.length} item
-              </span>
-              <span>Rp {total.toLocaleString("id-ID")}</span>
-            </div>
-
-            {cartOpen && (
-              <div className="p-4 space-y-3 max-h-80 overflow-y-auto">
-                {cart.map((i) => (
-                  <div
-                    key={i.id}
-                    className="flex justify-between items-center text-sm"
-                  >
-                    <span>
-                      {i.name} x{i.qty}
-                    </span>
-                    <div className="flex gap-1 items-center">
-                      <span>
-                        Rp {(i.price * i.qty).toLocaleString("id-ID")}
-                      </span>
-                      <button
-                        onClick={() => updateQty(i.id, -1)}
-                        className="text-red-600 p-1 rounded-full hover:bg-red-100 transition"
-                      >
-                        <FaMinus />
-                      </button>
-                      <button
-                        onClick={() => updateQty(i.id, 1)}
-                        className="text-green-600 p-1 rounded-full hover:bg-green-100 transition"
-                      >
-                        <FaPlus />
-                      </button>
-                      <button
-                        onClick={() => removeFromCart(i.id)}
-                        className="text-gray-600 p-1 rounded-full hover:bg-gray-200 transition"
-                      >
-                        <FaTrash />
-                      </button>
-                    </div>
-                  </div>
-                ))}
-                <a
-                  href={waLink}
-                  target="_blank"
-                  className="w-full block text-center bg-red-600 text-white py-3 rounded-xl font-bold mt-2"
-                >
-                  Kirim Pesanan
-                </a>
-              </div>
-            )}
-          </motion.div>
-        </div>
-      )}
+      <FloatingCart
+        cart={cart}
+        waLink={waLink}
+        total={total}
+        setCart={setCart}
+      />
 
       {/* Preview */}
       <AnimatePresence>
@@ -486,34 +292,6 @@ Mohon konfirmasi 🙏`;
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
-  );
-}
-
-function Section({ title, children }) {
-  return (
-    <div className="space-y-3 mb-4">
-      <p className="font-bold text-gray-900">{title}</p>
-      {children}
-    </div>
-  );
-}
-
-function Input({ icon, label, type = "text", placeholder, onChange }) {
-  return (
-    <div className="mb-3">
-      <label className="text-sm font-semibold text-gray-700">{label}</label>
-      <div className="relative mt-2">
-        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
-          {icon}
-        </span>
-        <input
-          type={type}
-          placeholder={placeholder}
-          className="w-full pl-10 pr-5 py-4 rounded-2xl bg-white shadow-md border border-gray-100 focus:ring-2 focus:ring-red-500 outline-none"
-          onChange={(e) => onChange(e.target.value)}
-        />
-      </div>
     </div>
   );
 }
