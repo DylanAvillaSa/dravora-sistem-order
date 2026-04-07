@@ -64,7 +64,7 @@ export default function SistemPesananOtomatisFull() {
 
   const formatName = (text) => {
     return text
-      .replace(/-/g, " ") // ⬅️ ini yang hilangin "-"
+      .replace(/-/g, " ")
       .replace(/\b\w/g, (char) => char.toUpperCase()); // capitalize
   };
 
