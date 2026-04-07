@@ -25,10 +25,10 @@ export default function SistemPesananOtomatisFull() {
   const [name, setName] = useState("");
   const [cart, setCart] = useState([]);
   const [note, setNote] = useState("");
-  const [showPreview, setShowPreview] = useState(false);
   const [toast, setToast] = useState("");
-  const [activeCategory, setActiveCategory] = useState("List product");
   const [searchTerm, setSearchTerm] = useState("");
+  const [activeCategory, setActiveCategory] = useState("List product");
+  const [showPreview, setShowPreview] = useState(false);
   const date = new Date();
 
   const storeName = formatName(param);
